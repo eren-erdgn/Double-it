@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {   
-    public BlockProperties blockProperties { get; private set; }
     private TextMeshPro _text;
     private SpriteRenderer _spriteRenderer;
     private void Awake() {
@@ -19,6 +18,9 @@ public class Block : MonoBehaviour
         _text.text = blockProperties.number.ToString();
         _text.color = blockProperties.textColor;
         _spriteRenderer.color = blockProperties.backgroundColor;
+    }
+    public int GetBlockNumber() {
+        return _text.text == "" ? 0 : int.Parse(_text.text);
     }
     
 }
