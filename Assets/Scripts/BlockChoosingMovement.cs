@@ -43,17 +43,15 @@ public class BlockChoosingMovement : MonoBehaviour
         }
     }
 
-    // Snap to the closest target position
     if (closestTargetIndex != -1 && minDistance < 0.5f)
     {
         transform.position = _targetPositions[closestTargetIndex].position;
-
-        // Log the index of the snapped target position
+        Events.onColumnSelected.Invoke(closestTargetIndex);
         Debug.Log("Snapped to target position index: " + closestTargetIndex);
     }
     else
     {
-        // If not close enough to a target position, return to the initial position
+        
         transform.position = initialPosition;
     }
 }
