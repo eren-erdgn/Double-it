@@ -11,22 +11,23 @@ public class BoardSpawner : MonoBehaviour
     [SerializeField] private GameObject _tilePrefab;
     [SerializeField] private Transform _boardParent;
     [SerializeField] private Transform _choosingBoardParent;
-    [SerializeField] private List<Transform> choosingTileTransforms = new List<Transform>();
-    [SerializeField] private List<List<Transform>> tileTransforms = new List<List<Transform>>();
+    [SerializeField] private List<Transform> choosingTileTransforms = new();
+    [SerializeField] private List<List<Transform>> tileTransforms = new();
 
-    public List<Transform> getChoosingTileTransforms { get => choosingTileTransforms; }
-    public List<List<Transform>> getTileTransforms { get => tileTransforms; }
+    public List<Transform> GetChoosingTileTransforms { get => choosingTileTransforms; }
+    public List<List<Transform>> GetTileTransforms { get => tileTransforms; }
+
 
     public static BoardSpawner Instance;
     private void Awake() {
         Instance = this;
         GenerateBoard();
-        generateChoosingBoard();
+        GenerateChoosingBoard();
     }
 
     
     
-    void generateChoosingBoard()
+    void GenerateChoosingBoard()
     {
         for (float x = -_width + 1; x < _width; x++)
         {
@@ -39,31 +40,20 @@ public class BoardSpawner : MonoBehaviour
     {
         for (float x = -_width + 1; x < _width; x++)
         {
-            generateList();
+            GenerateList();
             for (float y = 1; y < _height; y++)
             {   
                 _tilePrefab.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
                 GameObject newTile = Instantiate(_tilePrefab, new Vector2(x, y), Quaternion.identity,_boardParent);
-                tileTransforms[tileTransforms.Count - 1].Add(newTile.transform);
+                tileTransforms[^1].Add(newTile.transform);
             }
         }
     }
 
-    private void generateList()
+    void GenerateList()
     {
         
-        List<Transform> newList = new List<Transform>();
+        List<Transform> newList = new();
         tileTransforms.Add(newList);
-    }
-    void showListOfList()
-    {
-        for (int i = 0; i < tileTransforms.Count; i++)
-        {
-            Debug.Log("--------------------");
-            for (int j = 0; j < tileTransforms[i].Count; j++)
-            {
-                Debug.Log(tileTransforms[i][j].position);
-            }
-        }
     }
 }

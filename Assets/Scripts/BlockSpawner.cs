@@ -5,86 +5,32 @@ using UnityEngine;
 
 public class BlockSpawner : MonoBehaviour
 {
-    public Block BlockPrefab;
-    public BlockProperties[] BlockProperties;
+    [SerializeField] private Block BlockPrefab;
+    [SerializeField] private BlockProperties[] _blockProperties;
 
-    private int _topNumber;
-    private BlockProperties _blockProperty;
-    private Block lastSpawnedBlock;
 
-    private void OnEnable()
-    {
-        Events.onTopNumberChanged.AddListener(OnTopNumberChanged);
-    }
-
-    private void OnDisable()
-    {
-        Events.onTopNumberChanged.RemoveListener(OnTopNumberChanged);
-    }
+    
     
     private void Start()
     {
-        _blockProperty = BlockProperties[0];
+        _blockProperties = BlockPropertiesData.Instance.GetBlockProperties();
     }
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            DestroyLastSpawnedBlock();
-            ChangeBlockProperties(_topNumber);
-            SpawnBlock();
+            SpawnBlockFromBlockPropertiesRandomly();
         }
+            
     }
 
-    private void ChangeBlockProperties(int topNumber)
+    private void SpawnBlockFromBlockPropertiesRandomly()
     {
-        
-        if (topNumber >= 2048)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, 6);
-            _blockProperty = BlockProperties[randomIndex];
-        }
-        else if (topNumber >= 1024)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, 5);
-            _blockProperty = BlockProperties[randomIndex];
-        }
-        else if (topNumber >= 512)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, 4);
-            _blockProperty = BlockProperties[randomIndex];
-        }
-        else if (topNumber >= 64)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, 3);
-            _blockProperty = BlockProperties[randomIndex];
-        }
-        else
-        {
-            int randomIndex = UnityEngine.Random.Range(0, 2);
-            _blockProperty = BlockProperties[randomIndex];
-        }
-    }
-
-    private void SpawnBlock()
-    {
-        lastSpawnedBlock = Instantiate(BlockPrefab, transform.position, Quaternion.identity);
-        lastSpawnedBlock.SetBlockProperties(_blockProperty);
-    }
-
-    private void DestroyLastSpawnedBlock()
-    {
-        if (lastSpawnedBlock != null)
-        {
-            Destroy(lastSpawnedBlock.gameObject);
-        }
+        int randomIndex = UnityEngine.Random.Range(0, 2);
+        Block block = Instantiate(BlockPrefab, transform.position, Quaternion.identity);
+        block.SetBlockProperties(_blockProperties[randomIndex]);
+        block.SetCurrentBlockPropertiesIndex(randomIndex);
     }
     
-
-    private void OnTopNumberChanged(int topNumber)
-    {
-        Debug.Log("OnTopNumberChanged: " + topNumber);
-        _topNumber = topNumber;
-    }
 }
