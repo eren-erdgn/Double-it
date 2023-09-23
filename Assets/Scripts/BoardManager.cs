@@ -8,6 +8,9 @@ public class BoardManager : MonoBehaviour
 {
     private Transform[][] _board;
     public static BoardManager Instance;
+    [SerializeField]
+    private bool _isABlockDestroyed;
+
 
     private void Awake() {
         Instance = this;
@@ -25,7 +28,14 @@ public class BoardManager : MonoBehaviour
         return _board[rowIndex][columnIndex].GetComponentInChildren<Block>();
     }
 
-    
+    public void SetIsAblockDestroyed(bool value)
+    {
+        _isABlockDestroyed = value;
+    }
+    public bool GetIsABlockDestroyed()
+    {
+        return _isABlockDestroyed;
+    }
 
     public int GetFirstEmptyRowIndex(int columnIndex)
     {   

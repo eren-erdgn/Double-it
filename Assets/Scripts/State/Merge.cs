@@ -10,7 +10,7 @@ public class Merge : BaseState
     BoardManager _boardManager;
     BlockProperties[] _blockProperties;
     private List <Block> _blocksToDestroy = new();
-    private bool _isAboveTileEmpty;
+    private bool _isMerged = false;
 
     public override void EnterState(StateManager block)
     {
@@ -18,80 +18,72 @@ public class Merge : BaseState
         _boardManager = BoardManager.Instance;
         _blockProperties = BlockPropertiesData.Instance.GetBlockProperties();
         _block.SetIsMerging(true);
-        block.StartCoroutine(MergeProcess(block));
-    }
-
-    private IEnumerator MergeProcess(StateManager block)
-    {
-        DrawLines();
-
-        yield return new WaitForSeconds(5f);
-
-        MergeWithSameBlock(block);
+        
     }
 
     public override void UpdateState(StateManager block)
     {
         
-        
+        MergeWithSameBlock(block);
     }
 
     void MergeWithSameBlock(StateManager block)
     {   
+        
         int mergableBlockCount = 0;
         int currentBlockPropertiesIndex = _block.GetCurrentBlockPropertiesIndex();
         if(_boardManager.GetBlockAboveValue(_block) == _block.GetBlockValue())
         { 
             mergableBlockCount++;
+            DrawLine(_block.transform.position, _boardManager.GetBlockAbove(_block).transform.position);
             _blocksToDestroy.Add(_boardManager.GetBlockAbove(_block));
         }
         if(_boardManager.GetBlockLeftValue(_block) == _block.GetBlockValue())
         {
             mergableBlockCount++;
+            DrawLine(_block.transform.position, _boardManager.GetBlockLeft(_block).transform.position);
             _blocksToDestroy.Add(_boardManager.GetBlockLeft(_block));
         }
         if(_boardManager.GetBlockRightValue(_block) == _block.GetBlockValue())
         {
             mergableBlockCount++;
+            DrawLine(_block.transform.position, _boardManager.GetBlockRight(_block).transform.position);
             _blocksToDestroy.Add(_boardManager.GetBlockRight(_block));
         }
 
-        DestroyBlocksOnList(_blocksToDestroy);
-        CleanList();
-        _block.SetCurrentBlockPropertiesIndex(currentBlockPropertiesIndex + mergableBlockCount);
-        _block.UpdateMergedBlockProperties(_blockProperties[currentBlockPropertiesIndex + mergableBlockCount]);
-        if(_isAboveTileEmpty)
+        MoveToSameBlock(_blocksToDestroy);
+        if(_isMerged)
         {
-            block.SwitchState(block.MovingState);
-            _isAboveTileEmpty = false;
-        }
-        else
-        {
+            
+            DestroyBlocksOnList(_blocksToDestroy);
+            CleanList();
+            _block.SetCurrentBlockPropertiesIndex(currentBlockPropertiesIndex + mergableBlockCount);
+            _block.UpdateMergedBlockProperties(_blockProperties[currentBlockPropertiesIndex + mergableBlockCount]);
             block.SwitchState(block.SettleState);
+            _block.SetIsMerging(false);
+            _isMerged = false;
         }
         
-        _block.SetIsMerging(false);
     }
-
-    void DrawLines()
+    
+    public void MoveToSameBlock(List<Block> blocksToDestroy)
     {
-        if(_boardManager.GetBlockAboveValue(_block) == _block.GetBlockValue())
-        { 
-            _isAboveTileEmpty = true;
-            DrawLine(_block.transform.position, _boardManager.GetBlockAbove(_block).transform.position);
-        }
-        if(_boardManager.GetBlockLeftValue(_block) == _block.GetBlockValue())
+        
+        Vector3 targetPosition = _block.transform.position;
+        
+        foreach (var block in blocksToDestroy)
         {
-            DrawLine(_block.transform.position, _boardManager.GetBlockLeft(_block).transform.position);
+            block.transform.position = Vector3.MoveTowards(block.transform.position, targetPosition, 0.0001f);
+            if(targetPosition ==block.transform.position)
+            {
+                _isMerged = true;
+            }
         }
-        if(_boardManager.GetBlockRightValue(_block) == _block.GetBlockValue())
-        {
-            DrawLine(_block.transform.position, _boardManager.GetBlockRight(_block).transform.position);
-        }
+        
     }
-
     void DestroyBlocksOnList(List<Block> blocksToDestroy)
     {
+        MoveToSameBlock(blocksToDestroy);
         foreach (var block in blocksToDestroy)
         {
             _boardManager.DestroyBlock(block);
@@ -100,10 +92,11 @@ public class Merge : BaseState
     void CleanList()
     {
         _blocksToDestroy.Clear();
+        
     }
 
     void DrawLine(Vector3 start, Vector3 end)
     {
-        Debug.DrawLine(start, end, Color.red, 1f);
+        Debug.DrawLine(start, end, Color.red, 3f);
     }
 }

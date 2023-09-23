@@ -9,7 +9,6 @@ public class Moving : BaseState
     Block _block;
     BoardManager _boardManager;
     private Transform[][] _targetPositions;
-
     
     public override void EnterState(StateManager block)
     {
@@ -17,10 +16,15 @@ public class Moving : BaseState
         _block.SetIsMoving(true);
         _boardManager = BoardManager.Instance;
         _targetPositions = BoardSpawner.Instance.GetTileTransforms.Select(x => x.ToArray()).ToArray();
+        
     }
-
+    IEnumerator WaitFirst()
+    {
+        yield return new WaitForSeconds(4f);
+    }
     public override void UpdateState(StateManager block)
     {
+        
         if(block.CheckPreviousState(block.ColumnChoosingState))
         {
             CheckColumn(block);
