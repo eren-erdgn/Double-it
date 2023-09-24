@@ -49,6 +49,23 @@ public class BoardManager : MonoBehaviour
         return -1;
     }
 
+    public bool CheckAllTilesWithBlocksAreSettledWithoutThisBlock(Block block)
+    {
+        for (int i = 0; i < _board.Length; i++)
+        {
+            for (int j = 0; j < _board[i].Length; j++)
+            {
+                if(_board[i][j].childCount != 0)
+                {
+                    if(_board[i][j].GetComponentInChildren<Block>().GetIsSettled() == false && _board[i][j].GetComponentInChildren<Block>() != block)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
     public bool IsAboveTileEmpty(int rowIndex, int columnIndex)
     {
         if ( rowIndex != _board[columnIndex].Length && _board[columnIndex][rowIndex].childCount == 0 )

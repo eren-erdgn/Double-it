@@ -59,6 +59,7 @@ public class Merge : BaseState
             CleanList();
             _block.SetCurrentBlockPropertiesIndex(currentBlockPropertiesIndex + mergableBlockCount);
             _block.UpdateMergedBlockProperties(_blockProperties[currentBlockPropertiesIndex + mergableBlockCount]);
+            
             block.SwitchState(block.SettleState);
             _block.SetIsMerging(false);
             _isMerged = false;

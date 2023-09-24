@@ -9,6 +9,7 @@ public class StateManager : MonoBehaviour
     BaseState _previousState;
     public ColumnChoosing ColumnChoosingState = new();
     public Moving MovingState = new();
+    public MoveAboveTile MoveAboveTileState = new();
     public Settle SettleState = new();
     public Merge MergeState = new();
     

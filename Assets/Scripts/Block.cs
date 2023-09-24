@@ -87,4 +87,8 @@ public class Block : MonoBehaviour
         return int.Parse(_text.text);
     }
 
+    public bool GetIsSettled()
+    {
+        return _isSetteled;
+    }
 }
