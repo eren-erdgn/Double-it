@@ -87,6 +87,10 @@ public class BoardManager : MonoBehaviour
     {
         return GetBlock(block.GetBlockCurrentColumnIndex(), block.GetBlockCurrentRowIndex() + 1);
     }
+    public Block GetBlockBelow(Block block)
+    {
+        return GetBlock(block.GetBlockCurrentColumnIndex(), block.GetBlockCurrentRowIndex() - 1);
+    }
 
     #region GetAdjacentBlockValues
         public int GetBlockRightValue(Block block)
@@ -117,6 +121,15 @@ public class BoardManager : MonoBehaviour
             return 0;
         }
         return _blockAbove.GetBlockValue();
+    }
+    public int GetBlockBelowValue(Block block)
+    {
+        Block _blockBelow = GetBlock(block.GetBlockCurrentColumnIndex(), block.GetBlockCurrentRowIndex() - 1);
+        if(_blockBelow == null)
+        {
+            return 0;
+        }
+        return _blockBelow.GetBlockValue();
     }
     #endregion
 

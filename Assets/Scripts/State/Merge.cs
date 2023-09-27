@@ -50,6 +50,12 @@ public class Merge : BaseState
             DrawLine(_block.transform.position, _boardManager.GetBlockRight(_block).transform.position);
             _blocksToDestroy.Add(_boardManager.GetBlockRight(_block));
         }
+        if(_boardManager.GetBlockBelowValue(_block) == _block.GetBlockValue())
+        {
+            mergableBlockCount++;
+            DrawLine(_block.transform.position, _boardManager.GetBlockBelow(_block).transform.position);
+            _blocksToDestroy.Add(_boardManager.GetBlockBelow(_block));
+        }
 
         MoveToSameBlock(_blocksToDestroy);
         if(_isMerged)

@@ -62,7 +62,7 @@ public class Settle : BaseState
     }
     private void CheckMergeableBlocks(StateManager block)
     {
-        if(_boardManager.GetBlockAboveValue(_block) == _block.GetBlockValue() || _boardManager.GetBlockRightValue(_block) == _block.GetBlockValue() ||_boardManager.GetBlockLeftValue(_block) == _block.GetBlockValue() )
+        if(_boardManager.GetBlockBelowValue(_block) == _block.GetBlockValue() || _boardManager.GetBlockRightValue(_block) == _block.GetBlockValue() ||_boardManager.GetBlockLeftValue(_block) == _block.GetBlockValue() )
         {   
             _block.SetIsSetteled(false);
             block.SwitchState(block.MergeState);
