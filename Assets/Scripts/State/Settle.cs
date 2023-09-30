@@ -26,6 +26,7 @@ public class Settle : BaseState
     {
         if(_boardManager.CheckAllTilesWithBlocksAreSettledWithoutThisBlock(_block))
         {
+            
             CheckMergeableBlocks(block);
             CheckOneAboveTile(block);
         }

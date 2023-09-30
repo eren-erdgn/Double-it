@@ -9,13 +9,14 @@ public class Merge : BaseState
     Block _block;
     BoardManager _boardManager;
     BlockProperties[] _blockProperties;
-    private List <Block> _blocksToDestroy = new();
+    
     private bool _isMerged = false;
 
     public override void EnterState(StateManager block)
     {
         _block = block.GetComponent<Block>();
         _boardManager = BoardManager.Instance;
+        
         _blockProperties = BlockPropertiesData.Instance.GetBlockProperties();
         _block.SetIsMerging(true);
         
@@ -36,32 +37,38 @@ public class Merge : BaseState
         { 
             mergableBlockCount++;
             DrawLine(_block.transform.position, _boardManager.GetBlockAbove(_block).transform.position);
-            _blocksToDestroy.Add(_boardManager.GetBlockAbove(_block));
+            _boardManager.BlocksToDestroy.Add(_boardManager.GetBlockAbove(_block));
         }
         if(_boardManager.GetBlockLeftValue(_block) == _block.GetBlockValue())
         {
             mergableBlockCount++;
             DrawLine(_block.transform.position, _boardManager.GetBlockLeft(_block).transform.position);
-            _blocksToDestroy.Add(_boardManager.GetBlockLeft(_block));
+            _boardManager.BlocksToDestroy.Add(_boardManager.GetBlockLeft(_block));
         }
         if(_boardManager.GetBlockRightValue(_block) == _block.GetBlockValue())
         {
             mergableBlockCount++;
             DrawLine(_block.transform.position, _boardManager.GetBlockRight(_block).transform.position);
-            _blocksToDestroy.Add(_boardManager.GetBlockRight(_block));
+            _boardManager.BlocksToDestroy.Add(_boardManager.GetBlockRight(_block));
         }
         if(_boardManager.GetBlockBelowValue(_block) == _block.GetBlockValue())
         {
             mergableBlockCount++;
             DrawLine(_block.transform.position, _boardManager.GetBlockBelow(_block).transform.position);
-            _blocksToDestroy.Add(_boardManager.GetBlockBelow(_block));
+            _boardManager.BlocksToDestroy.Add(_boardManager.GetBlockBelow(_block));
         }
 
-        MoveToSameBlock(_blocksToDestroy);
+        if(mergableBlockCount == 0 && (_boardManager.BlocksToDestroy.Count >= 4 || !_boardManager.CheckBlocksToDestroyHaveUniqeBlocks()) )
+        {
+            block.SwitchState(block.SettleState);
+            _block.SetIsMerging(false);
+        }
+
+        
+        MoveToSameBlock(_boardManager.BlocksToDestroy);
         if(_isMerged)
         {
-            
-            DestroyBlocksOnList(_blocksToDestroy);
+            DestroyBlocksOnList(_boardManager.BlocksToDestroy);
             CleanList();
             _block.SetCurrentBlockPropertiesIndex(currentBlockPropertiesIndex + mergableBlockCount);
             _block.UpdateMergedBlockProperties(_blockProperties[currentBlockPropertiesIndex + mergableBlockCount]);
@@ -73,6 +80,13 @@ public class Merge : BaseState
         
     }
     
+    public void ParentlessTheBlocks(List<Block> blocksToDestroy)
+    {
+        foreach (var block in blocksToDestroy)
+        {
+            block.transform.parent = null;
+        }
+    }
     public void MoveToSameBlock(List<Block> blocksToDestroy)
     {
         
@@ -98,7 +112,7 @@ public class Merge : BaseState
     }
     void CleanList()
     {
-        _blocksToDestroy.Clear();
+        _boardManager.BlocksToDestroy.Clear();
         
     }
 

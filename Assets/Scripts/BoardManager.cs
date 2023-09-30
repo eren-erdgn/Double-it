@@ -11,12 +11,38 @@ public class BoardManager : MonoBehaviour
     [SerializeField]
     private bool _isABlockDestroyed;
 
+    private List <Block> _blocksToDestroy = new();
+
+    public List<Block> BlocksToDestroy { get => _blocksToDestroy; set => _blocksToDestroy = value; }
 
     private void Awake() {
         Instance = this;
     }
     private void Start() {
         _board = BoardSpawner.Instance.GetTileTransforms.Select(x => x.ToArray()).ToArray();
+    }
+
+    public bool CheckBlocksToDestroyHaveUniqeBlocks()
+    {
+        if(_blocksToDestroy.Count == 0)
+        {
+            return false;
+        }
+        if(_blocksToDestroy.Count == 1)
+        {
+            return true;
+        }
+        for (int i = 0; i < _blocksToDestroy.Count; i++)
+        {
+            for (int j = 0; j < _blocksToDestroy.Count; j++)
+            {
+                if(_blocksToDestroy[i] == _blocksToDestroy[j] && i != j)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public Block GetBlock(int rowIndex, int columnIndex)
