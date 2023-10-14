@@ -24,13 +24,6 @@ public class BlockSpawner : MonoBehaviour
             
     }
 
-    private void SpawnFirstBlockFromBlockProperties()
-    {
-        Block block = Instantiate(BlockPrefab, transform.position, Quaternion.identity);
-        block.SetBlockProperties(_blockProperties[0]);
-        block.SetCurrentBlockPropertiesIndex(0);
-    }
-
     private void SpawnBlockFromBlockProperties(int index)
     {
         Block block = Instantiate(BlockPrefab, transform.position, Quaternion.identity);
@@ -38,13 +31,7 @@ public class BlockSpawner : MonoBehaviour
         block.SetCurrentBlockPropertiesIndex(index);
     }
 
-    private void SpawnBlockFromBlockPropertiesRandomly()
-    {
-        int randomIndex = UnityEngine.Random.Range(0, 2);
-        Block block = Instantiate(BlockPrefab, transform.position, Quaternion.identity);
-        block.SetBlockProperties(_blockProperties[randomIndex]);
-        block.SetCurrentBlockPropertiesIndex(randomIndex);
-    }
+    
     private void DetectNumbersFromKeyboard()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
