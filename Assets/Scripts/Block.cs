@@ -11,13 +11,6 @@ public class Block : MonoBehaviour
     
 
 
-    [SerializeField] private bool _isColumnChoosing;
-    [SerializeField] private bool _isMoving;
-    [SerializeField] private bool _isMerging;
-    [SerializeField] private bool _isSetteled;
-
-    [SerializeField] private bool _isAboveBlockMovingAboveTile;
-
     [SerializeField]private int _currentBlockPropertiesIndex;
     [SerializeField]private int _blockCurrentColumnIndex;
     [SerializeField]private int _blockCurrentRowIndex;
@@ -61,34 +54,5 @@ public class Block : MonoBehaviour
         return _blockCurrentRowIndex;
     }
 
-    #region stateinfo
-    public void SetIsColumnChoosing(bool value) {
-        _isColumnChoosing = value;
-    }
-    public void SetIsMoving(bool value) {
-        _isMoving = value;
-    }
-    public void SetIsMerging(bool value) {
-        _isMerging = value;
-    }
-    public void SetIsSetteled(bool value) {
-        _isSetteled = value;
-    }
-    #endregion
     
-
-    
-    public void DestroyBlock(Block block) {
-        Destroy(block.gameObject);
-    }
-
-    public int GetBlockValue()
-    {
-        return int.Parse(_text.text);
-    }
-
-    public bool GetIsSettled()
-    {
-        return _isSetteled;
-    }
 }
