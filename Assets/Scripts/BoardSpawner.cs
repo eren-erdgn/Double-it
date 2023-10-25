@@ -2,20 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BoardSpawner : MonoBehaviour
 {
 
-    [SerializeField] private float _width;
-    [SerializeField] private int _height;
-    [SerializeField] private GameObject _tilePrefab;
-    [SerializeField] private Transform _boardParent;
-    [SerializeField] private Transform _choosingBoardParent;
+    [SerializeField] private float width;
+    [SerializeField] private int height;
+    [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private Transform boardParent;
+    [SerializeField] private Transform choosingBoardParent;
     [SerializeField] private List<Transform> choosingTileTransforms = new();
-    [SerializeField] private List<List<Transform>> tileTransforms = new();
+    private readonly List<List<Transform>> _tileTransforms = new();
 
-    public List<Transform> GetChoosingTileTransforms { get => choosingTileTransforms; }
-    public List<List<Transform>> GetTileTransforms { get => tileTransforms; }
+    public List<Transform> GetChoosingTileTransforms => choosingTileTransforms;
+    public List<List<Transform>> GetTileTransforms => _tileTransforms;
 
 
     public static BoardSpawner Instance;
@@ -29,23 +30,23 @@ public class BoardSpawner : MonoBehaviour
     
     void GenerateChoosingBoard()
     {
-        for (float x = -_width + 1; x < _width; x++)
+        for (float x = -width + 1; x < width; x++)
         {
-            _tilePrefab.transform.localScale = new Vector3(1f, 1f, 1f);
-            GameObject newChoosingTile = Instantiate(_tilePrefab, new Vector2(x, 0), Quaternion.identity,_choosingBoardParent);
+            tilePrefab.transform.localScale = new Vector3(1f, 1f, 1f);
+            GameObject newChoosingTile = Instantiate(tilePrefab, new Vector2(x, 0), Quaternion.identity,choosingBoardParent);
             choosingTileTransforms.Add(newChoosingTile.transform);
         }
     }
     void GenerateBoard()
     {
-        for (float x = -_width + 1; x < _width; x++)
+        for (float x = -width + 1; x < width; x++)
         {
             GenerateList();
-            for (float y = 1; y < _height; y++)
+            for (float y = 1; y < height; y++)
             {   
-                _tilePrefab.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
-                GameObject newTile = Instantiate(_tilePrefab, new Vector2(x, y), Quaternion.identity,_boardParent);
-                tileTransforms[^1].Add(newTile.transform);
+                tilePrefab.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+                GameObject newTile = Instantiate(tilePrefab, new Vector2(x, y), Quaternion.identity,boardParent);
+                _tileTransforms[^1].Add(newTile.transform);
             }
         }
     }
@@ -54,6 +55,6 @@ public class BoardSpawner : MonoBehaviour
     {
         
         List<Transform> newList = new();
-        tileTransforms.Add(newList);
+        _tileTransforms.Add(newList);
     }
 }

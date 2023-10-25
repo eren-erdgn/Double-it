@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3822511069963981014}
   - component: {fileID: 798941953765938974}
   - component: {fileID: 497613091695919632}
+  - component: {fileID: 4951907253792948801}
   m_Layer: 0
   m_Name: Block
   m_TagString: Untagged
@@ -98,9 +99,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5979c6e5800f7f94491b149ca6bf23d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentBlockPropertiesIndex: 0
-  _blockCurrentColumnIndex: 0
-  _blockCurrentRowIndex: 0
+  blockType: 0
+  currentBlockPropertiesIndex: 0
+  blockCurrentColumnIndex: 0
+  blockCurrentRowIndex: 0
+--- !u!114 &4951907253792948801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3183964353835337255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27100d20792b1934c98fc05df07dfebb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3866610286974564354
 GameObject:
   m_ObjectHideFlags: 0

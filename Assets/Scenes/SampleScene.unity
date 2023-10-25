@@ -192,7 +192,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -277,20 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84338aa12e5757f4daaf2eab190fdf0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlockPrefab: {fileID: 497613091695919632, guid: cc9711c3f19154f4ab05669ae1ca0f67, type: 3}
-  _blockProperties:
-  - {fileID: 11400000, guid: daf99dcd5dd5aa04f827993bd8798441, type: 2}
-  - {fileID: 11400000, guid: 94b3cfb7e9b6f8d44b05bde052ad3b8e, type: 2}
-  - {fileID: 11400000, guid: e32d2ab4a01a884428a8b8214b6a0ed0, type: 2}
-  - {fileID: 11400000, guid: 54d7ffc50abaa1743b11c1f04ec7424f, type: 2}
-  - {fileID: 11400000, guid: 217ab5872dfbd544195089b078b3dac4, type: 2}
-  - {fileID: 11400000, guid: ed8c2b31ead3a3c4f8b4bb07041e919a, type: 2}
-  - {fileID: 11400000, guid: cca77f4edc8e094469fd3b9c57818702, type: 2}
-  - {fileID: 11400000, guid: ad1118f9ad884b54bbc8ba52ade65d2c, type: 2}
-  - {fileID: 11400000, guid: d6ed7a6920563df42ab81c1d684b941f, type: 2}
-  - {fileID: 11400000, guid: 55cffcc850d48fc4697bfd0f2b98803a, type: 2}
-  - {fileID: 11400000, guid: 6be41887c87b2874387cbf95496308cd, type: 2}
-  - {fileID: 11400000, guid: 04aecf4f5bda42149acd359d257b3a6d, type: 2}
+  blockPrefab: {fileID: 497613091695919632, guid: cc9711c3f19154f4ab05669ae1ca0f67, type: 3}
+  blockProperties: []
 --- !u!4 &561429380
 Transform:
   m_ObjectHideFlags: 0
@@ -306,6 +294,50 @@ Transform:
   m_Father: {fileID: 161220932}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &907423402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 907423403}
+  - component: {fileID: 907423404}
+  m_Layer: 0
+  m_Name: StateManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &907423403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907423402}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1180317491}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &907423404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907423402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd31d027a65a9847b7a8158ff261e05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1091546001
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,6 +398,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1383490206}
+  - {fileID: 907423403}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -398,11 +431,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1d7ed6cb96bd224bb20f8ed7453f29d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 2.5
-  _height: 8
-  _tilePrefab: {fileID: 203308377064290501, guid: b022954179ff4974098389f7fceaafde, type: 3}
-  _boardParent: {fileID: 1091546002}
-  _choosingBoardParent: {fileID: 1949100941}
+  width: 2.5
+  height: 8
+  tilePrefab: {fileID: 203308377064290501, guid: b022954179ff4974098389f7fceaafde, type: 3}
+  boardParent: {fileID: 1091546002}
+  choosingBoardParent: {fileID: 1949100941}
   choosingTileTransforms: []
 --- !u!4 &1246731830
 Transform:
@@ -492,7 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679531c047771014585a4d971cdf2926, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blockProperties:
+  blockProperties:
   - {fileID: 11400000, guid: daf99dcd5dd5aa04f827993bd8798441, type: 2}
   - {fileID: 11400000, guid: 94b3cfb7e9b6f8d44b05bde052ad3b8e, type: 2}
   - {fileID: 11400000, guid: e32d2ab4a01a884428a8b8214b6a0ed0, type: 2}

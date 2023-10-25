@@ -1,24 +1,32 @@
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Input = UnityEngine.Windows.Input;
 
 public class Block : MonoBehaviour
 {   
+    public enum BlockType
+    {
+        NewComer,
+        Merged,
+        Settled
+    }
+    public BlockType blockType;
     private TextMeshPro _text;
     private SpriteRenderer _spriteRenderer;
     
 
 
-    [SerializeField]private int _currentBlockPropertiesIndex;
-    [SerializeField]private int _blockCurrentColumnIndex;
-    [SerializeField]private int _blockCurrentRowIndex;
+     [SerializeField]private int currentBlockPropertiesIndex;
+     [SerializeField]private int blockCurrentColumnIndex;
+     [SerializeField]private int blockCurrentRowIndex;
 
 
     private void Awake() {
         _text = GetComponentInChildren<TextMeshPro>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        blockType = BlockType.Merged;
     }
 
     public void SetBlockProperties(BlockProperties blockProperties) {
@@ -35,24 +43,27 @@ public class Block : MonoBehaviour
     }
 
     public void SetCurrentBlockPropertiesIndex(int index) {
-        _currentBlockPropertiesIndex = index;
+        currentBlockPropertiesIndex = index;
     }
     public int GetCurrentBlockPropertiesIndex() {
-        return _currentBlockPropertiesIndex;
+        return currentBlockPropertiesIndex;
     }
 
     public void SetBlockCurrentColumnIndex(int index) {
-        _blockCurrentColumnIndex = index;
+        blockCurrentColumnIndex = index;
     }
     public void SetBlockCurrentRowIndex(int index) {
-        _blockCurrentRowIndex = index;
+        blockCurrentRowIndex = index;
     }
     public int GetBlockCurrentColumnIndex() {
-        return _blockCurrentColumnIndex;
+        return blockCurrentColumnIndex;
     }
     public int GetBlockCurrentRowIndex() {
-        return _blockCurrentRowIndex;
+        return blockCurrentRowIndex;
     }
-
+    
+    public void SetBlockType(BlockType type) {
+        blockType = type;
+    }
     
 }
