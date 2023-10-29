@@ -9,10 +9,14 @@ public class Block : MonoBehaviour
     public enum BlockType
     {
         NewComer,
+        Throwing,
+        CheckMerge,
         Merged,
         Settled
     }
-    public BlockType blockType;
+    [SerializeField]
+    private BlockType blockType;
+    
     private TextMeshPro _text;
     private SpriteRenderer _spriteRenderer;
     
@@ -26,7 +30,7 @@ public class Block : MonoBehaviour
     private void Awake() {
         _text = GetComponentInChildren<TextMeshPro>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        blockType = BlockType.Merged;
+        blockType = BlockType.NewComer;
     }
 
     public void SetBlockProperties(BlockProperties blockProperties) {
@@ -61,9 +65,15 @@ public class Block : MonoBehaviour
     public int GetBlockCurrentRowIndex() {
         return blockCurrentRowIndex;
     }
-    
+    public BlockType GetBlockType() {
+        return blockType;
+    }
     public void SetBlockType(BlockType type) {
         blockType = type;
     }
-    
+
+    public string GetBlockNumber()
+    {
+        return _text.text;
+    }
 }

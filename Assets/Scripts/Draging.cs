@@ -15,6 +15,7 @@ public class Draging : MonoBehaviour
     private int _maxTargetIndex = 0;
     private void OnEnable()
     {
+        
         Events.OnBlockListen.AddListener(Toggle);
     }
 
@@ -25,7 +26,8 @@ public class Draging : MonoBehaviour
 
     private void Start()
     {
-        _block = GetComponent<Block>();
+        
+        
         _targetPositions = BoardSpawner.Instance.GetChoosingTileTransforms.ToArray();
         if (_targetPositions.Length > 0)
         {
@@ -33,10 +35,10 @@ public class Draging : MonoBehaviour
             _maxTargetIndex = _targetPositions.Length - 1;
         }
     }
-
+    
     private void Update()
     {
-        if (_isAtDragState == false) return;
+        if (_isAtDragState == false ) return;
         InputListener();
         if (_isDragging)
         {
@@ -54,7 +56,8 @@ public class Draging : MonoBehaviour
 
     private void Toggle()
     {
-        _isAtDragState = true;
+        _block = GetComponent<Block>();
+        _isAtDragState = _block.GetBlockType() == Block.BlockType.NewComer;
     }
 
     
@@ -82,10 +85,12 @@ public class Draging : MonoBehaviour
             }
             if (closestTargetIndex != -1 && minDistance < 0.5f)
             {
+                
                 transform.position = _targetPositions[closestTargetIndex].position;
                 _block.SetBlockCurrentColumnIndex(closestTargetIndex);
-                Debug.Log(closestTargetIndex);
                 _isAtDragState = false;
+                
+                _block.SetBlockType(Block.BlockType.Throwing);
                 StateManager.Instance.ChangeState(GameState.Throwing);
                 
             }
@@ -94,6 +99,6 @@ public class Draging : MonoBehaviour
                 
                 transform.position = _initialPosition;
             }
-    }
+        }
     }
 }

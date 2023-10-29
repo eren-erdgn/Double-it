@@ -12,8 +12,7 @@ public class StateManager : MonoBehaviour
     {
         Instance = this;
     }
-
-    // Add a property to get the current state
+    
     public GameState CurrentState => _state;
 
     private void Start()
@@ -21,6 +20,7 @@ public class StateManager : MonoBehaviour
         ChangeState(GameState.SpawnBlock);
     }
 
+    
     public void ChangeState(GameState newState)
     {
         _state = newState;
@@ -34,7 +34,10 @@ public class StateManager : MonoBehaviour
                 Events.OnBlockListen.Invoke();
                 break;
             case GameState.Throwing:
-                Debug.Log("Throwing");
+                Events.OnBlockThrowing.Invoke();
+                break;
+            case GameState.Merging:
+                Events.OnBlockCheckMerge.Invoke();
                 break;
             case GameState.Moving:
                 break;
@@ -51,6 +54,7 @@ public enum GameState
     SpawnBlock,
     Dragging,
     Throwing,
+    Merging,
     Moving,
     Lose
 }
